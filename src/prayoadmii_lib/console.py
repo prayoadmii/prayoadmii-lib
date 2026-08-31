@@ -4,12 +4,15 @@ import colorama
 from datetime import datetime
 from colorama import Fore
 
+
 colorama.init(autoreset=True)
+
 
 def _GetTimeStamp() -> str:
     now = datetime.now()
 
     return str(now.strftime("%d/%m/%Y At %H:%M:%S"))
+
 
 def _GetCaller() -> str:
     try:
@@ -21,6 +24,7 @@ def _GetCaller() -> str:
             return str(script_name)
     except Exception:
         return "Unknown"
+
 
 def _PrintHelp(ForeColor, TypeString: str, Console: str, Caller: str, TimeStamp: str):
     print(f"{str(TimeStamp)} - [{ForeColor}{str(TypeString)}{Fore.RESET}]: {str(Console)} | {Fore.CYAN}[{str(Caller)}]{Fore.RESET}", flush=True)
@@ -40,7 +44,6 @@ def log(Text: str):
 
 def warn(Text: str):
     _PrintHelp(ForeColor=Fore.YELLOW, TypeString="WARN", Console=Text, Caller=str(_GetCaller()), TimeStamp=str(_GetTimeStamp()))
-
 
 def debug(Text: str):
     _PrintHelp(ForeColor=Fore.MAGENTA, TypeString="DEBUG", Console=Text, Caller=str(_GetCaller()), TimeStamp=str(_GetTimeStamp()))
