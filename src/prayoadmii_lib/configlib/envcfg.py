@@ -1,14 +1,12 @@
 from pathlib import Path
 from typing import Any
 
+from prayoadmii_lib import console
+
 def _parse_value(value: str) -> Any:
     value = value.strip()
 
-    if (
-        len(value) >= 2
-        and value[0] == value[-1]
-        and value[0] in "\"'"
-    ):
+    if len(value) >= 2 and value[0] == value[-1] and value[0] in "\"'":
         return value[1:-1]
 
     lowered = value.lower()
@@ -40,7 +38,14 @@ class Env:
         self.data = data
 
     def get(self, key: str, default: Any = None) -> Any:
-        return self.data.get(key, default)
+        data = self.data.get(key, default)
+
+        if data is None:
+            console.warn(f"Value Of Key '{str(key)}' Was Not Found In Your ENV File! Will Return Default Value! ({str(default)})")
+
+            return default
+        else:
+            return data
 
 def load(filename: str | Path) -> Env:
     path = Path(filename)

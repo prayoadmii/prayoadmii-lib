@@ -3,6 +3,8 @@ import tomllib
 from pathlib import Path
 from typing import Any
 
+from prayoadmii_lib import console
+
 class Config:
     def __init__(self, path: Path, data: dict[str, Any]):
         self.path = path
@@ -18,6 +20,8 @@ class Config:
             value = value.get(key)
 
             if value is None:
+                console.warn(f"Value Of Key '{str(key)}' Was Not Found In Your Config File! Will Return Default Value! ({str(default)})")
+
                 return default
 
         return value

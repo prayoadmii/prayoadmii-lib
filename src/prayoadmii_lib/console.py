@@ -27,23 +27,53 @@ def _GetCaller() -> str:
 
 
 def _PrintHelp(ForeColor, TypeString: str, Console: str, Caller: str, TimeStamp: str):
-    print(f"{str(TimeStamp)} - [{ForeColor}{str(TypeString)}{Fore.RESET}]: {str(Console)} | {Fore.CYAN}[{str(Caller)}]{Fore.RESET}", flush=True)
+    print(f"{str(TimeStamp)} | [{Fore.CYAN}{str(Caller)}{Fore.RESET}/{ForeColor}{str(TypeString)}{Fore.RESET}]: {str(Console)}", flush=True)
 
 
 def error(Text: str):
-    _PrintHelp(ForeColor=Fore.RED, TypeString="ERROR", Console=Text, Caller=str(_GetCaller()), TimeStamp=str(_GetTimeStamp()))
+    _PrintHelp(
+        ForeColor=Fore.RED,
+        TypeString="ERROR",
+        Console=Text,
+        Caller=str(_GetCaller()),
+        TimeStamp=str(_GetTimeStamp())
+    )
 
 
 def info(Text: str):
-    _PrintHelp(ForeColor=Fore.BLUE, TypeString="INFO", Console=Text, Caller=str(_GetCaller()), TimeStamp=str(_GetTimeStamp()))
+    _PrintHelp(
+        ForeColor=Fore.BLUE,
+        TypeString="INFO",
+        Console=Text,
+        Caller=str(_GetCaller()),
+        TimeStamp=str(_GetTimeStamp())
+    )
 
 
 def log(Text: str):
-    _PrintHelp(ForeColor=Fore.GREEN, TypeString="LOG", Console=Text, Caller=str(_GetCaller()), TimeStamp=str(_GetTimeStamp()))
+    _PrintHelp(
+        ForeColor=Fore.GREEN,
+        TypeString="LOG",
+        Console=Text,
+        Caller=str(_GetCaller()),
+        TimeStamp=str(_GetTimeStamp())
+    )
 
 
 def warn(Text: str):
-    _PrintHelp(ForeColor=Fore.YELLOW, TypeString="WARN", Console=Text, Caller=str(_GetCaller()), TimeStamp=str(_GetTimeStamp()))
+    _PrintHelp(
+        ForeColor=Fore.YELLOW,
+        TypeString="WARN",
+        Console=Text,
+        Caller=str(_GetCaller()),
+        TimeStamp=str(_GetTimeStamp())
+    )
 
 def debug(Text: str):
-    _PrintHelp(ForeColor=Fore.MAGENTA, TypeString="DEBUG", Console=Text, Caller=str(_GetCaller()), TimeStamp=str(_GetTimeStamp()))
+    _PrintHelp(
+        ForeColor=Fore.MAGENTA,
+        TypeString="DEBUG",
+        Console=Text,
+        Caller=str(_GetCaller()),
+        TimeStamp=str(_GetTimeStamp())
+    )
