@@ -30,7 +30,10 @@ def _PrintHelp(ForeColor, TypeString: str, Console: str, Caller: str, TimeStamp:
     print(f"{str(TimeStamp)} | [{Fore.CYAN}{str(Caller)}{Fore.RESET}/{ForeColor}{str(TypeString)}{Fore.RESET}]: {str(Console)}", flush=True)
 
 
-def error(Text: str):
+def error(Text: str | None = None):
+    if Text is None:
+        Text = 'No Text Provided! Put "" If You Want To Print An Empty Line'
+
     _PrintHelp(
         ForeColor=Fore.RED,
         TypeString="ERROR",
@@ -40,7 +43,10 @@ def error(Text: str):
     )
 
 
-def info(Text: str):
+def info(Text: str | None = None):
+    if Text is None:
+        Text = 'No Text Provided! Put "" If You Want To Print An Empty Line'
+    
     _PrintHelp(
         ForeColor=Fore.BLUE,
         TypeString="INFO",
@@ -50,7 +56,10 @@ def info(Text: str):
     )
 
 
-def log(Text: str):
+def log(Text: str | None = None):
+    if Text is None:
+        Text = 'No Text Provided! Put "" If You Want To Print An Empty Line'
+
     _PrintHelp(
         ForeColor=Fore.GREEN,
         TypeString="LOG",
@@ -60,7 +69,10 @@ def log(Text: str):
     )
 
 
-def warn(Text: str):
+def warn(Text: str | None = None):
+    if Text is None:
+        Text = 'No Text Provided! Put "" If You Want To Print An Empty Line'
+    
     _PrintHelp(
         ForeColor=Fore.YELLOW,
         TypeString="WARN",
@@ -69,7 +81,10 @@ def warn(Text: str):
         TimeStamp=str(_GetTimeStamp())
     )
 
-def debug(Text: str):
+def debug(Text: str | None = None):
+    if Text is None:
+        Text = 'No Text Provided! Put "" If You Want To Print An Empty Line'
+    
     _PrintHelp(
         ForeColor=Fore.MAGENTA,
         TypeString="DEBUG",
