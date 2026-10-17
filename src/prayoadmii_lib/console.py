@@ -19,7 +19,7 @@ def _GetCaller() -> str:
         script_name = str(sys._getframe(2).f_globals.get('__name__', 'Unknown'))
         
         if str(script_name) == "__main__":
-            return "Bootstrap"
+            return "Main"
         else:
             return str(script_name)
     except Exception:
