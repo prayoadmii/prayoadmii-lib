@@ -27,4 +27,4 @@
 
 ### **Why This Was On PyPi?**
 
-**This Is Generial Library I Used In My Projects So I Make It Indexed On PyPi So I Can Just add This To Users `requirements.txt`**
+**This Is Generial Library I Used In My Projects So I Make It Indexed On PyPi So I Can Just Add This To All Users By Adding It To `requirements.txt` Without Shipping Entire Scripts In Every Projects**
