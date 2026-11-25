@@ -35,14 +35,14 @@ def _GetCaller() -> str:
     except Exception:
         return "Unknown"
 
-async def _FallbackLogger(Output: str | None):
-    print()
+def _FallbackLogger(Output: str | None):
+    print(f"[{Fore.RED}FALLBACK CONSOLE{Fore.RESET}]: {str(Output)}")
 
 def _log(ForeColor = Fore.CYAN, LogType: str = "I", Output: str | None = None, Caller: str = ""):
-    time = str(_GetTimeStamp("%d/%m/%Y - %H:%M:%S"))
+    time = str(str(_GetTimeStamp("%Y-%m-%d %H:%M:%S.%f"))[:-3])
 
-    log_msg = f"{str(time)} [{str(Caller)}/{str(LogType)}]: {"" if Output is None else str(Output)}"
-    print_msg = f"{str(time)} [{Fore.CYAN}{str(Caller)}{Fore.RESET}/{ForeColor}{str(LogType)}{Fore.RESET}]: {"" if Output is None else str(Output)}"
+    log_msg = f"{str(time)} {str(Caller)} {str(LogType)} {"" if Output is None else str(Output)}"
+    print_msg = f"{str(time)} {Fore.CYAN}{str(Caller)}{Fore.RESET} {ForeColor}{str(LogType)}{Fore.RESET} {"" if Output is None else str(Output)}"
 
     print(str(print_msg), flush = True)
 
