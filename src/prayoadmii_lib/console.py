@@ -1,18 +1,28 @@
+import gzip
 import sys
 import colorama
+import asyncio
 
+from pathlib import Path
 from datetime import datetime
+from dataclasses import dataclass
 from colorama import Fore
 
 
 colorama.init(autoreset=True)
 
+@dataclass
+class ConsoleConfig:
+    use_log_file: bool = True
+    log_folder: str = "logs"
+    gzip_old_logs: bool = True
+    old_logs_count: int = 100
+    latest_file_name: str = "latest.log"
 
-def _GetTimeStamp() -> str:
-    now = datetime.now()
+_run_folder: Path | None = None
 
-    return str(now.strftime("%d/%m/%Y At %H:%M:%S"))
-
+def _GetTimeStamp(format: str) -> str:
+    return str(datetime.now().strftime(format))
 
 def _GetCaller() -> str:
     try:
@@ -25,70 +35,84 @@ def _GetCaller() -> str:
     except Exception:
         return "Unknown"
 
+async def _FallbackLogger(Output: str | None):
+    print()
 
-def _PrintHelp(ForeColor, TypeString: str, Console: str, Caller: str, TimeStamp: str):
-    print(f"{str(TimeStamp)} | [{Fore.CYAN}{str(Caller)}{Fore.RESET}/{ForeColor}{str(TypeString)}{Fore.RESET}]: {str(Console)}", flush=True)
+async def _log(ForeColor = Fore.CYAN, LogType: str = "I", Output: str | None = None, Caller: str = ""):
+    time = str(_GetTimeStamp("%d/%m/%Y - %H:%M:%S"))
 
+    log_msg = f"{str(time)} [{str(Caller)}/{str(LogType)}]: {"" if Output is None else str(Output)}"
+    print_msg = f"{str(time)} [{Fore.CYAN}{str(Caller)}{Fore.RESET}/{ForeColor}{str(LogType)}{Fore.RESET}]: {"" if Output is None else str(Output)}"
 
-def error(Text: str | None = None):
-    if Text is None:
-        Text = 'No Text Provided! Put "" If You Want To Print An Empty Line'
-
-    _PrintHelp(
-        ForeColor=Fore.RED,
-        TypeString="ERROR",
-        Console=Text,
-        Caller=str(_GetCaller()),
-        TimeStamp=str(_GetTimeStamp())
+    await asyncio.to_thread(
+        print,
+        str(print_msg),
+        flush = True
     )
 
 
-def info(Text: str | None = None):
-    if Text is None:
-        Text = 'No Text Provided! Put "" If You Want To Print An Empty Line'
-    
-    _PrintHelp(
-        ForeColor=Fore.BLUE,
-        TypeString="INFO",
-        Console=Text,
-        Caller=str(_GetCaller()),
-        TimeStamp=str(_GetTimeStamp())
+async def init(config: ConsoleConfig | None = None):
+    global _run_folder
+
+    _run_folder = Path.cwd()
+
+
+def log(text: str | None = None):
+    caller = str(_GetCaller())
+
+    asyncio.run(
+        _log(
+            ForeColor = Fore.GREEN,
+            LogType = "L",
+            Output = text,
+            Caller = caller
+        )
     )
 
+def info(text: str | None = None):
+    caller = str(_GetCaller())
 
-def log(Text: str | None = None):
-    if Text is None:
-        Text = 'No Text Provided! Put "" If You Want To Print An Empty Line'
-
-    _PrintHelp(
-        ForeColor=Fore.GREEN,
-        TypeString="LOG",
-        Console=Text,
-        Caller=str(_GetCaller()),
-        TimeStamp=str(_GetTimeStamp())
+    asyncio.run(
+        _log(
+            ForeColor = Fore.CYAN,
+            LogType = "I",
+            Output = text,
+            Caller = caller
+        )
     )
 
+def warn(text: str | None = None):
+    caller = str(_GetCaller())
 
-def warn(Text: str | None = None):
-    if Text is None:
-        Text = 'No Text Provided! Put "" If You Want To Print An Empty Line'
-    
-    _PrintHelp(
-        ForeColor=Fore.YELLOW,
-        TypeString="WARN",
-        Console=Text,
-        Caller=str(_GetCaller()),
-        TimeStamp=str(_GetTimeStamp())
+    asyncio.run(
+        _log(
+            ForeColor = Fore.YELLOW,
+            LogType = "W",
+            Output = text,
+            Caller = caller
+        )
     )
 
-def debug(Text: str | None = None):
-    if Text is None:
-        Text = 'No Text Provided! Put "" If You Want To Print An Empty Line'
-    
-    _PrintHelp(
-        ForeColor=Fore.MAGENTA,
-        TypeString="DEBUG",
-        Console=Text,
-        Caller=str(_GetCaller()),
-        TimeStamp=str(_GetTimeStamp())
+def error(text: str | None = None):
+    caller = str(_GetCaller())
+
+    asyncio.run(
+        _log(
+            ForeColor = Fore.RED,
+            LogType = "E",
+            Output = text,
+            Caller = caller
+        )
+    )
+
+def debug(text: str | None = None):
+    caller = str(_GetCaller())
+
+    asyncio.run(
+        _log(
+            ForeColor = Fore.MAGENTA,
+            LogType = "D",
+            Output = text,
+            Caller = caller
+        )
     )

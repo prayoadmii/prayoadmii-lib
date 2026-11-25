@@ -14,7 +14,7 @@
 
 **Currently This Library Have**
 
-- **Console (My Crazy Logging Library Made With `colorama`)**
+- **Console (My Crazy Logging Library Made With `colorama` With Log Files Support)**
 - **ConfigLib (Read Config In Your Project!)**
 
 ---
