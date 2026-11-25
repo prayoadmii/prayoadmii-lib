@@ -38,17 +38,13 @@ def _GetCaller() -> str:
 async def _FallbackLogger(Output: str | None):
     print()
 
-async def _log(ForeColor = Fore.CYAN, LogType: str = "I", Output: str | None = None, Caller: str = ""):
+def _log(ForeColor = Fore.CYAN, LogType: str = "I", Output: str | None = None, Caller: str = ""):
     time = str(_GetTimeStamp("%d/%m/%Y - %H:%M:%S"))
 
     log_msg = f"{str(time)} [{str(Caller)}/{str(LogType)}]: {"" if Output is None else str(Output)}"
     print_msg = f"{str(time)} [{Fore.CYAN}{str(Caller)}{Fore.RESET}/{ForeColor}{str(LogType)}{Fore.RESET}]: {"" if Output is None else str(Output)}"
 
-    await asyncio.to_thread(
-        print,
-        str(print_msg),
-        flush = True
-    )
+    print(str(print_msg), flush = True)
 
 
 async def init(config: ConsoleConfig | None = None):
@@ -60,59 +56,49 @@ async def init(config: ConsoleConfig | None = None):
 def log(text: str | None = None):
     caller = str(_GetCaller())
 
-    asyncio.run(
-        _log(
-            ForeColor = Fore.GREEN,
-            LogType = "L",
-            Output = text,
-            Caller = caller
-        )
+    _log(
+        ForeColor = Fore.GREEN,
+        LogType = "L",
+        Output = text,
+        Caller = caller
     )
 
 def info(text: str | None = None):
     caller = str(_GetCaller())
 
-    asyncio.run(
-        _log(
-            ForeColor = Fore.CYAN,
-            LogType = "I",
-            Output = text,
-            Caller = caller
-        )
+    _log(
+        ForeColor = Fore.CYAN,
+        LogType = "I",
+        Output = text,
+        Caller = caller
     )
 
 def warn(text: str | None = None):
     caller = str(_GetCaller())
 
-    asyncio.run(
-        _log(
-            ForeColor = Fore.YELLOW,
-            LogType = "W",
-            Output = text,
-            Caller = caller
-        )
+    _log(
+        ForeColor = Fore.YELLOW,
+        LogType = "W",
+        Output = text,
+        Caller = caller
     )
 
 def error(text: str | None = None):
     caller = str(_GetCaller())
 
-    asyncio.run(
-        _log(
-            ForeColor = Fore.RED,
-            LogType = "E",
-            Output = text,
-            Caller = caller
-        )
+    _log(
+        ForeColor = Fore.RED,
+        LogType = "E",
+        Output = text,
+        Caller = caller
     )
 
 def debug(text: str | None = None):
     caller = str(_GetCaller())
 
-    asyncio.run(
-        _log(
-            ForeColor = Fore.MAGENTA,
-            LogType = "D",
-            Output = text,
-            Caller = caller
-        )
+    _log(
+        ForeColor = Fore.MAGENTA,
+        LogType = "D",
+        Output = text,
+        Caller = caller
     )
